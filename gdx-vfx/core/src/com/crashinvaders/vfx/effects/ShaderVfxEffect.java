@@ -26,7 +26,6 @@ import com.crashinvaders.vfx.VfxRenderContext;
 import com.crashinvaders.vfx.framebuffer.VfxFrameBuffer;
 
 /** Base class for any shader based single-pass filter. */
-@SuppressWarnings("unchecked")
 public abstract class ShaderVfxEffect extends AbstractVfxEffect {
 
     public static final int TEXTURE_HANDLE0 = 0;

@@ -209,13 +209,11 @@ public class VfxFrameBuffer implements Disposable {
     }
 
     protected int getBoundFboHandle() {
-        int boundFboHandle = VfxGLUtils.getBoundFboHandle();
-        return boundFboHandle;
+        return VfxGLUtils.getBoundFboHandle();
     }
 
     protected VfxGlViewport getViewport() {
-        VfxGlViewport viewport = VfxGLUtils.getViewport();
-        return viewport;
+        return VfxGLUtils.getViewport();
     }
 
     private static class RendererManager implements Renderer {
