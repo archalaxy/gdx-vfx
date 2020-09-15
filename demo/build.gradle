@@ -38,6 +38,7 @@ subprojects {
     ext.appName = 'gdx-vfx'
 }
 
+/*
 configure(subprojects - project(':demo:android')) {
     apply plugin: 'java'
     sourceCompatibility = 1.7
@@ -46,3 +47,4 @@ configure(subprojects - project(':demo:android')) {
 
     sourceSets.main.java.srcDirs = ['src']
 }
+ */
