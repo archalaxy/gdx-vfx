@@ -31,59 +31,59 @@ import com.crashinvaders.vfx.framebuffer.VfxFrameBufferQueue;
  * The result is then stored as the next last frame to create the trail effect. */
 public class MotionBlurEffect extends CompositeVfxEffect implements ChainVfxEffect {
 
-	private final MixEffect mixFilter;
-	private final CopyEffect copyFilter;
+    private final MixEffect mixFilter;
+    private final CopyEffect copyFilter;
 
-	private final VfxFrameBufferQueue localBuffer;
+    private final VfxFrameBufferQueue localBuffer;
 
-	private boolean firstFrameRendered = false;
+    private boolean firstFrameRendered = false;
 
-	public MotionBlurEffect(Pixmap.Format pixelFormat, MixEffect.Method mixMethod, float blurFactor, boolean hasDepth) {
-		mixFilter = register(new MixEffect(mixMethod));
-		mixFilter.setMixFactor(blurFactor);
+    public MotionBlurEffect(Pixmap.Format pixelFormat, MixEffect.Method mixMethod, float blurFactor, boolean hasDepth) {
+        mixFilter = register(new MixEffect(mixMethod));
+        mixFilter.setMixFactor(blurFactor);
 
-		copyFilter = register(new CopyEffect());
+        copyFilter = register(new CopyEffect());
 
-		localBuffer = new VfxFrameBufferQueue(
-		        pixelFormat,
-				// On WebGL (GWT) we cannot render from/into the same texture simultaneously.
-				// Will use ping-pong approach to avoid "writing into itself".
-				Gdx.app.getType() == Application.ApplicationType.WebGL ? 2 : 1,
+        localBuffer = new VfxFrameBufferQueue(
+                pixelFormat,
+                // On WebGL (GWT) we cannot render from/into the same texture simultaneously.
+                // Will use ping-pong approach to avoid "writing into itself".
+                Gdx.app.getType() == Application.ApplicationType.WebGL ? 2 : 1,
                 hasDepth
-		);
-	}
+        );
+    }
 
-	@Override
-	public void dispose() {
-		super.dispose();
-		localBuffer.dispose();
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+        localBuffer.dispose();
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		super.resize(width, height);
-		localBuffer.resize(width, height);
-		firstFrameRendered = false;
-	}
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+        localBuffer.resize(width, height);
+        firstFrameRendered = false;
+    }
 
-	@Override
-	public void rebind() {
-		super.rebind();
-		localBuffer.rebind();
-	}
+    @Override
+    public void rebind() {
+        super.rebind();
+        localBuffer.rebind();
+    }
 
-	@Override
-	public void render(VfxRenderContext context, VfxPingPongWrapper buffers) {
-		VfxFrameBuffer prevFrame = this.localBuffer.changeToNext();
-		if (!firstFrameRendered) {
-			// Mix filter requires two frames to render, so we gonna skip the first call.
-			copyFilter.render(context, buffers.getSrcBuffer(), prevFrame);
-			buffers.swap();
-			firstFrameRendered = true;
-			return;
-		}
+    @Override
+    public void render(VfxRenderContext context, VfxPingPongWrapper buffers) {
+        VfxFrameBuffer prevFrame = this.localBuffer.changeToNext();
+        if (!firstFrameRendered) {
+            // Mix filter requires two frames to render, so we gonna skip the first call.
+            copyFilter.render(context, buffers.getSrcBuffer(), prevFrame);
+            buffers.swap();
+            firstFrameRendered = true;
+            return;
+        }
 
-		mixFilter.render(context, buffers.getSrcBuffer(), prevFrame, buffers.getDstBuffer());
-		copyFilter.render(context, buffers.getDstBuffer(), prevFrame);
-	}
+        mixFilter.render(context, buffers.getSrcBuffer(), prevFrame, buffers.getDstBuffer());
+        copyFilter.render(context, buffers.getDstBuffer(), prevFrame);
+    }
 }
