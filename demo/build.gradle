@@ -37,12 +37,3 @@ subprojects {
     version = '1.0'
     ext.appName = 'gdx-vfx'
 }
-
-configure(subprojects - project(':demo:android')) {
-    apply plugin: 'java'
-    sourceCompatibility = 1.7
-
-    compileJava.options.encoding = 'UTF-8'
-
-    sourceSets.main.java.srcDirs = ['src']
-}
