@@ -65,7 +65,7 @@ public final class VfxManager implements Disposable {
     private int width, height;
 
     public VfxManager(Format fboFormat) {
-        this(fboFormat, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+        this(fboFormat, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), false);
     }
 
     public VfxManager(Format fboFormat, int bufferWidth, int bufferHeight, boolean hasDepth) {

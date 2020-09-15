@@ -14,8 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 
-apply plugin: 'maven-publish'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -29,6 +27,7 @@ buildscript {
     }
 }
 
+apply plugin: 'maven-publish'
 apply plugin: 'io.codearte.nexus-staging'
 
 // Setup Nexus repo credentials.
