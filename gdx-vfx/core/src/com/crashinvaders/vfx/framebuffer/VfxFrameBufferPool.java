@@ -38,6 +38,7 @@ public class VfxFrameBufferPool implements Disposable {
     private int width;
     private int height;
     private Pixmap.Format pixelFormat;
+    private boolean hasDepth;
 
     private Texture.TextureWrap textureWrapU = Texture.TextureWrap.ClampToEdge;
     private Texture.TextureWrap textureWrapV = Texture.TextureWrap.ClampToEdge;
@@ -47,13 +48,14 @@ public class VfxFrameBufferPool implements Disposable {
     private boolean disposed = false;
 
     public VfxFrameBufferPool() {
-        this(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), 16);
+        this(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), 16, false);
     }
 
-    public VfxFrameBufferPool(Pixmap.Format pixelFormat, int width, int height, int initialCapacity) {
+    public VfxFrameBufferPool(Pixmap.Format pixelFormat, int width, int height, int initialCapacity, boolean hasDepth) {
         this.width = width;
         this.height = height;
         this.pixelFormat = pixelFormat;
+        this.hasDepth = hasDepth;
 
         this.managedBuffers = new Array<>(false, initialCapacity);
         this.freeBuffers = new Array<>(false, initialCapacity);
@@ -130,7 +132,7 @@ public class VfxFrameBufferPool implements Disposable {
     }
 
     protected VfxFrameBuffer createBuffer() {
-        VfxFrameBuffer buffer = new VfxFrameBuffer(pixelFormat);
+        VfxFrameBuffer buffer = new VfxFrameBuffer(pixelFormat, hasDepth);
         buffer.initialize(width, height);
         managedBuffers.add(buffer);
         return buffer;

@@ -83,14 +83,16 @@ public class VfxFrameBuffer implements Disposable {
 
     private final VfxGlViewport preservedViewport = new VfxGlViewport();
     private final Pixmap.Format pixelFormat;    //TODO Shall be non-final and become a parameter of #initialize().
+    private final boolean hasDepth;
     private int previousFboHandle;
 
     private FrameBuffer fbo = null;
     private boolean initialized;
     private boolean drawing;
 
-    public VfxFrameBuffer(Pixmap.Format pixelFormat) {
+    public VfxFrameBuffer(Pixmap.Format pixelFormat, boolean hasDepth) {
         this.pixelFormat = pixelFormat;
+        this.hasDepth = hasDepth;
     }
 
     @Override
@@ -104,7 +106,7 @@ public class VfxFrameBuffer implements Disposable {
         initialized = true;
 
         int boundFboHandle = getBoundFboHandle();
-        fbo = new FrameBuffer(pixelFormat, width, height, false);
+        fbo = new FrameBuffer(pixelFormat, width, height, hasDepth);
         fbo.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         Gdx.gl20.glBindFramebuffer(GL20.GL_FRAMEBUFFER, boundFboHandle);
 

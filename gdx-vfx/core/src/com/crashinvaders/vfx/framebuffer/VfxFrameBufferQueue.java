@@ -33,13 +33,13 @@ public class VfxFrameBufferQueue implements Disposable {
     private Texture.TextureFilter filterMin = Texture.TextureFilter.Nearest;
     private Texture.TextureFilter filterMag = Texture.TextureFilter.Nearest;
 
-    public VfxFrameBufferQueue(Pixmap.Format pixelFormat, int fboAmount) {
+    public VfxFrameBufferQueue(Pixmap.Format pixelFormat, int fboAmount, boolean hasDepth) {
         if (fboAmount < 1) {
             throw new IllegalArgumentException("FBO amount should be a positive number.");
         }
         buffers = new Array<>(true, fboAmount);
         for (int i = 0; i < fboAmount; i++) {
-            buffers.add(new VfxFrameBuffer(pixelFormat));
+            buffers.add(new VfxFrameBuffer(pixelFormat, hasDepth));
         }
     }
 

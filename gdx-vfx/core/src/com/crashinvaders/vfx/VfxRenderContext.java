@@ -32,8 +32,8 @@ public class VfxRenderContext implements Disposable {
     private int bufferWidth;
     private int bufferHeight;
 
-    public VfxRenderContext(Pixmap.Format pixelFormat, int bufferWidth, int bufferHeight) {
-        this.bufferPool = new VfxFrameBufferPool(pixelFormat, bufferWidth, bufferHeight, 8);
+    public VfxRenderContext(Pixmap.Format pixelFormat, int bufferWidth, int bufferHeight, boolean hasDepth) {
+        this.bufferPool = new VfxFrameBufferPool(pixelFormat, bufferWidth, bufferHeight, 8, hasDepth);
         this.bufferRenderer = new VfxFrameBufferRenderer();
         this.pixelFormat = pixelFormat;
         this.bufferWidth = bufferWidth;

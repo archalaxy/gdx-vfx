@@ -65,14 +65,13 @@ public final class VfxManager implements Disposable {
     private int width, height;
 
     public VfxManager(Format fboFormat) {
-        this(fboFormat, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        this(fboFormat, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), false);
     }
 
-    public VfxManager(Format fboFormat, int bufferWidth, int bufferHeight) {
+    public VfxManager(Format fboFormat, int bufferWidth, int bufferHeight, boolean hasDepth) {
         this.width = bufferWidth;
         this.height = bufferHeight;
-
-        this.context = new VfxRenderContext(fboFormat, bufferWidth, bufferHeight);
+        this.context = new VfxRenderContext(fboFormat, bufferWidth, bufferHeight, hasDepth);
 
         // VfxFrameBufferPool will manage both ping-pong VfxFrameBuffer instances for us.
         this.pingPongWrapper = new VfxPingPongWrapper(context.getBufferPool());

@@ -38,16 +38,18 @@ public class MotionBlurEffect extends CompositeVfxEffect implements ChainVfxEffe
 
 	private boolean firstFrameRendered = false;
 
-	public MotionBlurEffect(Pixmap.Format pixelFormat, MixEffect.Method mixMethod, float blurFactor) {
+	public MotionBlurEffect(Pixmap.Format pixelFormat, MixEffect.Method mixMethod, float blurFactor, boolean hasDepth) {
 		mixFilter = register(new MixEffect(mixMethod));
 		mixFilter.setMixFactor(blurFactor);
 
 		copyFilter = register(new CopyEffect());
 
-		localBuffer = new VfxFrameBufferQueue(pixelFormat,
+		localBuffer = new VfxFrameBufferQueue(
+		        pixelFormat,
 				// On WebGL (GWT) we cannot render from/into the same texture simultaneously.
 				// Will use ping-pong approach to avoid "writing into itself".
-				Gdx.app.getType() == Application.ApplicationType.WebGL ? 2 : 1
+				Gdx.app.getType() == Application.ApplicationType.WebGL ? 2 : 1,
+                hasDepth
 		);
 	}
 
